@@ -1,13 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { loginReducer as login } from './login/reducer'
+import { Router } from 'react-router-dom'
+import history from './helpers/history'
+import apiMiddleware from './helpers/apiMiddleware/index'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+const store = createStore(combineReducers({ login }), applyMiddleware(apiMiddleware));
+
+render(
+  <Provider store={store}>
+    <React.StrictMode>
+      <Router history={history}>
+        <App />
+      </Router>
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
