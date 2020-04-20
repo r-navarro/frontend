@@ -1,7 +1,7 @@
 import { API_START } from '../helpers/apiMiddleware/actions';
-import { OPEN, CLOSE, OPEN_OK, CLOSE_OK, OPEN_KO, CLOSE_KO, CLEAR_ERROR } from './actions';
+import { OPEN, CLOSE, SUCCESS, FAILED, CLEAR_ERROR } from './actions';
 
-export const _shutterReducer = (state = {}, action) => {
+export const shutterReducer = (state = { error: false, data: {} }, action) => {
     switch (action.type) {
         case API_START:
             if (action.payload === OPEN || action.payload === CLOSE) {
@@ -13,16 +13,14 @@ export const _shutterReducer = (state = {}, action) => {
                 };
             }
             return state;
-        case OPEN_OK:
-        case CLOSE_OK:
+        case SUCCESS:
             return {
                 ...state,
                 data: action.data,
                 isLoading: false,
                 error: false,
             }
-        case OPEN_KO:
-        case CLOSE_KO:
+        case FAILED:
             return {
                 ...state,
                 data: action.data.response.data,

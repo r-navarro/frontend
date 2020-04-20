@@ -6,11 +6,12 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { loginReducer as login } from './login/reducer'
+import { shutterReducer as shutters } from './shutters/reducer'
 import { Router } from 'react-router-dom'
 import history from './helpers/history'
 import apiMiddleware from './helpers/apiMiddleware/index'
 
-const store = createStore(combineReducers({ login }), applyMiddleware(apiMiddleware));
+const store = createStore(combineReducers({ login, shutters }), applyMiddleware(apiMiddleware));
 
 render(
   <Provider store={store}>

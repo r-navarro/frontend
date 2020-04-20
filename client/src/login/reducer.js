@@ -2,8 +2,7 @@ import { API_START, API_END, } from '../helpers/apiMiddleware/actions';
 import { LOGIN, LOGGED, LOGIN_FAILED } from './actions';
 
 
-export const loginReducer = (state = {error:false}, action) => {
-    console.log("action type => ", action.type);
+export const loginReducer = (state = { error: false, data: {} }, action) => {
     switch (action.type) {
         case LOGGED:
             return {
@@ -17,7 +16,7 @@ export const loginReducer = (state = {error:false}, action) => {
                     isLoadingData: true
                 };
             }
-            break;
+            return state;
         case API_END:
             if (action.payload === LOGIN) {
                 return {
@@ -25,12 +24,12 @@ export const loginReducer = (state = {error:false}, action) => {
                     isLoadingData: false
                 };
             }
-            break;
+            return state;
         case LOGIN_FAILED:
-            console.log('login failed', state);
             return {
                 islogged: false,
                 error: true,
+                data: action.data,
             };
         default:
             return state;

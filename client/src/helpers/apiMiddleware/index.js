@@ -1,6 +1,6 @@
 import axios from "axios";
-import { API } from "./actions";
-import { accessDenied, apiError, apiStart, apiEnd } from "./actions";
+import { API, accessDenied, apiError, apiStart, apiEnd } from "./actions";
+import { refreshToken } from '../../login/actions'
 
 const apiMiddleware = ({ dispatch }) => next => action => {
   next(action);
@@ -45,6 +45,9 @@ const apiMiddleware = ({ dispatch }) => next => action => {
 
       if (error.response && error.response.status === 403) {
         dispatch(accessDenied(window.location.pathname));
+      }
+      if (error.response && error.response.status === 401) {
+        dispatch(refreshToken());
       }
     })
     .finally(() => {

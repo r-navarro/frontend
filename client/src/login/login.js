@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -46,12 +46,22 @@ export const Login = () => {
 
     const classes = useStyles();
 
-    const credentials = useSelector(state => { return { username: state.login.username, password: state.login.password } });
-    const error = useSelector(state => { return { username: state.login.error } });
+    const { credentials, error, data } = useSelector(state => {
+        return {
+            credentials: { username: state.login.username, password: state.login.password },
+            error: state.login.error,
+            data: state.login.data
+        }
+    });
 
     const [username, setUsername] = useState(credentials.username);
     const [password, setPassword] = useState(credentials.password);
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(error);
+
+    useEffect(() => {
+        setOpen(error)
+    }, [error]);
+
     const dispatch = useDispatch();
 
     return (
@@ -117,6 +127,7 @@ export const Login = () => {
                 </form>
                 <Collapse in={open}>
                     <Alert
+                        severity="error"
                         action={
                             <IconButton
                                 aria-label="close"
@@ -130,7 +141,7 @@ export const Login = () => {
                             </IconButton>
                         }
                     >
-                        Close me!
+                        {`${data.status} : login failed`}
                     </Alert>
                 </Collapse>
             </div>

@@ -1,6 +1,6 @@
 import { API } from '../helpers/apiMiddleware/actions';
 import { URL } from '../helpers/config';
-import history from '../helpers/history'
+import history from '../helpers/history';
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
@@ -32,7 +32,7 @@ export const refreshToken = () => {
 const loginSuccess = (data) => {
     localStorage.setItem('accesToken', data.access_token);
     localStorage.setItem('refreshToken', data.refresh_token);
-    history.push('/');
+    history.push('/app');
     return { type: LOGGED };
 }
 
@@ -40,7 +40,7 @@ const loginFailed = (data) => {
     history.push('/login');
     return {
         type: LOGIN_FAILED,
-        data
+        data: data.response
     };
 }
 

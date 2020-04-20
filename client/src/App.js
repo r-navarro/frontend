@@ -7,7 +7,9 @@ import {
 import { refreshToken } from './login/actions'
 import { useDispatch } from "react-redux";
 import { Login } from './login/login'
+import { Loading } from './loading/Loading'
 import { Shutters } from './shutters/shutters'
+import { Temperatures } from './temperatures/temperature'
 
 function App() {
 
@@ -16,10 +18,11 @@ function App() {
 
   return (
     <Switch>
-      <Route exact path="/login" component={Login}>
-      </Route>
-      <Route path="/" component={Shutters}>
-      </Route>
+      <Route exact path="/" component={Loading}/>
+      <Route exact path="/login" component={Login}/>
+      <Route exact path="/app" component={Shutters}/>
+      <Route exact path="/shutters" component={Shutters}/>
+      <Route exact path="/temperatures" component={Temperatures}/>
     </Switch>
   );
 }

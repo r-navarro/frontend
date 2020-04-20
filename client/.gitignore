@@ -10,6 +10,7 @@
 
 # production
 /build
+src/helpers/config.js
 
 # misc
 .DS_Store
