@@ -141,7 +141,7 @@ export const Login = () => {
                             </IconButton>
                         }
                     >
-                        {`${data.status} : login failed`}
+                        {data && `${data.status} : login failed`}
                     </Alert>
                 </Collapse>
             </div>

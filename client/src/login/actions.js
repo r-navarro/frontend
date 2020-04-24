@@ -6,6 +6,8 @@ export const LOGIN = 'LOGIN';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const LOGGED = 'LOGGED';
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';
+export const LOGOUT = 'LOGOUT';
+export const LOGEDOUT = 'LOGEDOUT';
 
 
 export const login = (credentials) => {
@@ -19,13 +21,19 @@ export const login = (credentials) => {
     });
 }
 
+export const logout = () => {
+    localStorage.removeItem('accesToken');
+    localStorage.removeItem('refreshToken');
+    history.push('/login');
+    return { type: LOGEDOUT };
+}
+
 export const refreshToken = () => {
     return apiAction({
         url: `${URL}/oauth/access_token`,
         method: 'POST',
         data: { grant_type: 'refresh_token', refresh_token: localStorage.getItem('refreshToken') },
         onSuccess: loginSuccess,
-        onFailure: loginFailed,
     });
 }
 
@@ -50,7 +58,7 @@ const apiAction = ({
     data = null,
     accessToken = null,
     onSuccess = () => { },
-    onFailure = () => { },
+    onFailure = () => { return { type: '' } },
     label = "",
     headersOverride = null
 }) => {

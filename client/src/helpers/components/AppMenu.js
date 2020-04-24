@@ -16,8 +16,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import shutterIcon from '../../assets/shutters.svg'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import temperatureIcon from '../../assets/temperature.svg'
 import Icon from '@material-ui/core/Icon';
+import "font-awesome/css/font-awesome.css";
 import history from '../../helpers/history';
 
 const drawerWidth = 240;
@@ -84,18 +86,54 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const items = [
+const smartHomeItems = [
   {
     key: 'Shutters',
-    icon: shutterIcon,
-    action: () => {history.push('/shutters')}
+    icon: (<Icon><img src={shutterIcon} /></Icon>),
+    action: () => { history.push('/shutters') }
   },
   {
     key: 'Temperatures',
-    icon: temperatureIcon,
-    action: () => {history.push('/temperatures')}
+    icon: (<Icon><img src={temperatureIcon} /></Icon>),
+    action: () => { history.push('/temperatures') }
   },
 ]
+
+const userItems = [
+  {
+    key: 'Profile',
+    icon: (<AccountCircleIcon />),
+    action: () => { history.push('/profile') }
+  },
+  {
+    key: 'Log out',
+    icon: (<Icon className="fa fa-power-off" />),
+    action: () => { history.push('/logout') }
+  },
+]
+
+const items = [smartHomeItems, userItems]
+
+const renderItem = (item) => item.map(({ key, icon, img, action }) => (
+  <ListItem button key={key} onClick={action}>
+    <ListItemIcon>
+      {
+        icon
+      }
+    </ListItemIcon>
+    <ListItemText primary={key} />
+  </ListItem>
+))
+
+const renderItems = () => {
+  const lenght = items.length;
+  return items.map((item, i) => {
+    if (lenght == i + 1) {
+      return renderItem(item)
+    }
+    return [renderItem(item), (<Divider />)]
+  });
+}
 
 export const AppMenu = ({ children }) => {
   const classes = useStyles();
@@ -132,7 +170,7 @@ export const AppMenu = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Mini variant drawer
+            Welcome
           </Typography>
         </Toolbar>
       </AppBar>
@@ -156,16 +194,7 @@ export const AppMenu = ({ children }) => {
         </div>
         <Divider />
         <List>
-          {items.map(({ key, icon, action }) => (
-            <ListItem button key={key} onClick={action}>
-              <ListItemIcon>
-                <Icon>
-                  <img src={icon} />
-                </Icon>
-              </ListItemIcon>
-              <ListItemText primary={key} />
-            </ListItem>
-          ))}
+          {renderItems()}
         </List>
       </Drawer>
       <main className={classes.content}>

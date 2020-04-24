@@ -10,6 +10,7 @@
 
 # production
 /build
+/html
 src/helpers/config.js
 
 # misc

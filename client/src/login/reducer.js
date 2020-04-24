@@ -1,5 +1,5 @@
 import { API_START, API_END, } from '../helpers/apiMiddleware/actions';
-import { LOGIN, LOGGED, LOGIN_FAILED } from './actions';
+import { LOGIN, LOGGED, LOGIN_FAILED, LOGEDOUT } from './actions';
 
 
 export const loginReducer = (state = { error: false, data: {} }, action) => {
@@ -7,6 +7,11 @@ export const loginReducer = (state = { error: false, data: {} }, action) => {
         case LOGGED:
             return {
                 islogged: true,
+                error: false,
+            };
+        case LOGEDOUT:
+            return {
+                islogged: false,
                 error: false,
             };
         case API_START:
