@@ -34,6 +34,7 @@ export const refreshToken = () => {
         method: 'POST',
         data: { grant_type: 'refresh_token', refresh_token: localStorage.getItem('refreshToken') },
         onSuccess: loginSuccess,
+        onFailure: loginFailedSilent,
     });
 }
 
@@ -49,6 +50,13 @@ const loginFailed = (data) => {
     return {
         type: LOGIN_FAILED,
         data: data.response
+    };
+}
+
+const loginFailedSilent = () => {
+    history.push('/login');
+    return {
+        type: ''
     };
 }
 
