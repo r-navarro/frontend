@@ -25,3 +25,28 @@ export const apiError = error => ({
   type: API_ERROR,
   error
 });
+
+export const apiAction = ({
+  url = "",
+  method = "GET",
+  data = null,
+  accessToken = null,
+  onSuccess = () => { },
+  onFailure = () => { return { type: '' } },
+  label = "",
+  headersOverride = null
+}) => {
+  return {
+      type: API,
+      payload: {
+          url,
+          method,
+          data,
+          accessToken,
+          onSuccess,
+          onFailure,
+          label,
+          headersOverride
+      }
+  };
+}

@@ -89,12 +89,12 @@ const useStyles = makeStyles((theme) => ({
 const smartHomeItems = [
   {
     key: 'Shutters',
-    icon: (<Icon><img src={shutterIcon} /></Icon>),
+    icon: (<Icon><img src={shutterIcon} alt=""/></Icon>),
     action: () => { history.push('/shutters') }
   },
   {
     key: 'Temperatures',
-    icon: (<Icon><img src={temperatureIcon} /></Icon>),
+    icon: (<Icon><img src={temperatureIcon} alt=""/></Icon>),
     action: () => { history.push('/temperatures') }
   },
 ]
@@ -114,7 +114,7 @@ const userItems = [
 
 const items = [smartHomeItems, userItems]
 
-const renderItem = (item) => item.map(({ key, icon, img, action }) => (
+const renderItem = (item) => item.map(({ key, icon, action }) => (
   <ListItem button key={key} onClick={action}>
     <ListItemIcon>
       {
@@ -128,7 +128,7 @@ const renderItem = (item) => item.map(({ key, icon, img, action }) => (
 const renderItems = () => {
   const lenght = items.length;
   return items.map((item, i) => {
-    if (lenght == i + 1) {
+    if (lenght === i + 1) {
       return renderItem(item)
     }
     return [renderItem(item), (<Divider />)]

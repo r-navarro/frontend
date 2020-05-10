@@ -1,4 +1,4 @@
-import { API } from '../helpers/apiMiddleware/actions';
+import { apiAction } from '../helpers/apiMiddleware/actions';
 import { URL } from '../helpers/config';
 import history from '../helpers/history';
 
@@ -33,7 +33,22 @@ export const refreshToken = () => {
         url: `${URL}/oauth/access_token`,
         method: 'POST',
         data: { grant_type: 'refresh_token', refresh_token: localStorage.getItem('refreshToken') },
-        onSuccess: loginSuccess,
+        onSuccess: refreshSuccess,
+        onFailure: loginFailedSilent,
+    });
+}
+
+const refreshSuccess = (data) => {
+    localStorage.setItem('accesToken', data.access_token);
+    localStorage.setItem('refreshToken', data.refresh_token);
+    return apiAction({
+        url: `${URL}/users/me`,
+        method: 'GET',
+        accessToken: localStorage.getItem('accesToken'),
+        onSuccess: (meData) => {
+            history.push('/app');
+            return { type: LOGGED, roles: meData.roles }
+        },
         onFailure: loginFailedSilent,
     });
 }
@@ -42,7 +57,7 @@ const loginSuccess = (data) => {
     localStorage.setItem('accesToken', data.access_token);
     localStorage.setItem('refreshToken', data.refresh_token);
     history.push('/app');
-    return { type: LOGGED };
+    return { type: LOGGED, roles: data.roles };
 }
 
 const loginFailed = (data) => {
@@ -57,30 +72,5 @@ const loginFailedSilent = () => {
     history.push('/login');
     return {
         type: ''
-    };
-}
-
-const apiAction = ({
-    url = "",
-    method = "GET",
-    data = null,
-    accessToken = null,
-    onSuccess = () => { },
-    onFailure = () => { return { type: '' } },
-    label = "",
-    headersOverride = null
-}) => {
-    return {
-        type: API,
-        payload: {
-            url,
-            method,
-            data,
-            accessToken,
-            onSuccess,
-            onFailure,
-            label,
-            headersOverride
-        }
     };
 }

@@ -9,11 +9,20 @@
     "http-proxy-middleware": "^1.0.0",
     "react-scripts": "3.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-standard": "^4.0.1"
+  },
   "scripts": {
     "client": "cd client && react-scripts start",
     "server": "nodemon server/app.js",
-    "start": "npm run client & npm run server"
+    "start": "npm run client & npm run server",
+    "lint": "eslint"
   },
   "author": "rnavarro",
   "license": "MIT"

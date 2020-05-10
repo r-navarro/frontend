@@ -8,11 +8,13 @@ export const loginReducer = (state = { error: false, data: {} }, action) => {
             return {
                 islogged: true,
                 error: false,
+                roles: action.roles
             };
         case LOGEDOUT:
             return {
                 islogged: false,
                 error: false,
+                roles: []
             };
         case API_START:
             if (action.payload === LOGIN) {
@@ -35,6 +37,7 @@ export const loginReducer = (state = { error: false, data: {} }, action) => {
                 islogged: false,
                 error: true,
                 data: action.data,
+                roles: []
             };
         default:
             return state;

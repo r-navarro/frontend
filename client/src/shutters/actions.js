@@ -1,4 +1,4 @@
-import { API } from '../helpers/apiMiddleware/actions';
+import { apiAction } from '../helpers/apiMiddleware/actions';
 import { URL } from '../helpers/config';
 
 export const CLOSE = 'CLOSE';
@@ -13,6 +13,8 @@ export const open = (id) => {
     return apiAction({
         url: `${URL_PREFIX}/open/${id}`,
         label: OPEN,
+        accessToken: localStorage.getItem('accesToken'),
+        method: 'POST',
         onSuccess: success,
         onFailure: failed
     });
@@ -22,6 +24,8 @@ export const close = (id) => {
     return apiAction({
         url: `${URL_PREFIX}/close/${id}`,
         label: CLOSE,
+        method: 'POST',
+        accessToken: localStorage.getItem('accesToken'),
         onSuccess: success,
         onFailure: failed
     });
@@ -41,34 +45,8 @@ const success = (data) => {
 }
 
 const failed = (data) => {
-    console.log(data.response)
     return {
         data: data,
         type: FAILED
     }
-}
-
-const apiAction = ({
-    url = "",
-    method = "POST",
-    data = null,
-    accessToken = localStorage.getItem('accesToken'),
-    onSuccess = () => { },
-    onFailure = () => { },
-    label = "",
-    headersOverride = null
-}) => {
-    return {
-        type: API,
-        payload: {
-            url,
-            method,
-            data,
-            accessToken,
-            onSuccess,
-            onFailure,
-            label,
-            headersOverride
-        }
-    };
 }
